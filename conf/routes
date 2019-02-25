@@ -1,0 +1,9 @@
+GET     /                               controllers.HomeController.index
+
+GET     /user/:id                       controllers.UserController.userHome(id: Int)
+
+GET     /chat/:fromUserId/to/:toUserId  controllers.ChatController.chatPage(fromUserId: Int, toUserId: Int)
+
+GET     /ws                             controllers.ChatController.webSocket
+
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)

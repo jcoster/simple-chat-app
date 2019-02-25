@@ -1,0 +1,47 @@
+@(fromUser: User, toUser: User, messages: List[Message])
+
+@justifyClass(message: Message) = @{
+  if (message.fromUserId == fromUser.id) "justify-content-start" else "justify-content-end"
+}
+
+@textAlignClass(message: Message) = @{
+  if (message.fromUserId == fromUser.id) "text-left" else "text-right"
+}
+
+@main("User @{fromUser.username}'s chat page with @{toUser.username}") {
+  <div class="container">
+    <div class="row">
+      <div class="col-9">
+        <h1>@{fromUser.username}'s chat with @{toUser.username}</h1>
+      </div>
+      <div class="col-3 text-right align-self-center">
+        <a href="@routes.UserController.userHome(fromUser.id)">Back to @{fromUser.username}'s homepage</a>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="newMessageInput" placeholder="Enter message here..." aria-label="Enter message here..." aria-describedby="button-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="sendMessage">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="messageArea">
+    @for(message <- messages) {
+      @* Note: update prependMessageToDisplay function in chat.js if updating the below div *@
+      <div class="row @justifyClass(message)">
+        <div class="col-6 @textAlignClass(message)">
+          <p class="message font-weight-bold">@message.content</p>
+          <small class="text-muted">@message.timestampString</small>
+        </div>
+      </div>
+    }
+  </div>
+
+  @* TODO find a better way to make this information accessible to the javascript *@
+  <input hidden id="fromUserId" value="@{fromUser.id}"/>
+  <input hidden id="toUserId" value="@{toUser.id}"/>
+
+  <script src="@routes.Assets.versioned("javascripts/chat.js")" type="text/javascript"></script>
+}

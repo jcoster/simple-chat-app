@@ -1,0 +1,14 @@
+@(user: User, contacts: List[User])
+
+@main("User @{user.username}'s Homepage") {
+  <div class="container">
+    <h1>@{user.username}'s homepage</h1>
+    <h3>Select a contact below to chat with:</h3>
+    <ul>
+      @for(contact <- contacts) {
+        <li><a href="@routes.ChatController.chatPage(user.id, contact.id)">@contact.username</a></li>
+      }
+    </ul>
+    <a href="@routes.HomeController.index"><- Back to the landing page</a>
+  </div>
+}

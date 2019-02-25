@@ -1,0 +1,13 @@
+@(users: List[User])
+
+@main("Landing page") {
+  <div class="container">
+    <br/>
+    <h3>Please select a user below to login as:</h3>
+    <ul>
+      @for(user <- users) {
+        <li><a href="@routes.UserController.userHome(user.id)">@user.username</a></li>
+      }
+    </ul>
+  </div>
+}
